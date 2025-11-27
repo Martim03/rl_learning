@@ -1,18 +1,18 @@
 import gymnasium as gym
+# TODO - make a wrapper
 # TODO - maybe use only valid actions
 # TODO - change reward system
+# TODO - change truncation to 50 steps
 
 
 class FrozenLakeEnviroment:
     def __init__(self):
-        # TODO - make a wrapper
         self.env = gym.make(
             "FrozenLake-v1", render_mode="human", is_slippery=False)
         # Actions: (0: Left, 1: Down, 2: Right, 3: Up)
         # States: 0-15 (4x4 grid)
 
-    # TODO add type check here
-    def get_action_label(self, action):
+    def get_action_label(self, action: int) -> str:
         action_dic = {0: "Left", 1: "Down", 2: "Right", 3: "Up"}
         return action_dic.get(action)
 
@@ -28,3 +28,9 @@ class FrozenLakeEnviroment:
     def close(self):
         """Delegates close to the underlying environment."""
         return self.env.close()
+
+    def action_space(self):
+        return self.env.action_space
+
+    def observation_space(self):
+        return self.env.observation_space
