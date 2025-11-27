@@ -14,12 +14,10 @@ truncated = False # time limit flag
 
 # Game Loop
 while not terminated and not truncated:
-    # ! TODO - implement action selection strategy
     # Take action
     random_action = env.action_space.sample()
     print(f"Current state: {state}, Taking action: {random_action}")
-    
-    # ! TODO - implement new step function
+
     # Get results
     new_state, reward, terminated, truncated, info = env.step(random_action)
     print(f"  -> New state: {new_state}, Reward: {reward}")
