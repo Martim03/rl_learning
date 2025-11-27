@@ -5,7 +5,14 @@ from time import sleep
 
 class FrozenLakeAgent:
     def __init__(self):
-        self.env = FrozenLakeEnviroment()
+        # *CHANGE PARAMETERS HERE*
+        self.env = FrozenLakeEnviroment(
+            max_steps=20,
+            goal_reward=1,
+            hole_reward=-1,
+            step_reward=-0.01
+        )
+
         self.q_table = Q_table(
             observation_space_n=self.env.observation_space().n,
             action_space_n=self.env.action_space().n,
