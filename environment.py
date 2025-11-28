@@ -4,6 +4,7 @@ from gymnasium.wrappers import TimeLimit
 from reward_wrapper import FrozenLakeRewardWrapper
 # TODO - maybe use only valid actions
 # ? TODO - change this class to inheritence?
+# TODO - make averega/max reward graphs
 
 
 class FrozenLakeEnviroment:

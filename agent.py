@@ -7,8 +7,8 @@ class FrozenLakeAgent:
     def __init__(self):
         # *CHANGE PARAMETERS HERE*
         self.env = FrozenLakeEnviroment(
-            max_steps=20,
-            goal_reward=1,
+            max_steps=80,
+            goal_reward=5,
             hole_reward=-1,
             step_reward=-0.01
         )
@@ -16,12 +16,14 @@ class FrozenLakeAgent:
         self.q_table = Q_table(
             observation_space_n=self.env.observation_space().n,
             action_space_n=self.env.action_space().n,
-            learning_rate=0.001,
+            learning_rate=0.01,
             epsilon_max=1,
-            epsilon_decay=0.01,  # 100 episodes = 0.37
+            epsilon_decay=0.001,  # 0.01 -> 100 episodes = 0.37
             epsilon_min=0.01,
-            discount_factor=0.95
+            discount_factor=0.99
         )
+        
+        self.max_episodes = 5000
 
     def get_action(self, state: int) -> int:
         return self.q_table.get_action(state)
@@ -62,20 +64,22 @@ class FrozenLakeAgent:
                 break
 
             # Wait a bit before next step
-            sleep(0.7)
+            # sleep(0.7)
 
         self.env.close
         return step, total_reward
 
     def train(self):
         print("Starting...")
-        episode = 1
 
-        print("\n=======================")
-        steps, accumulated_reward = self.run_episode()
-        print("=======================\n")
+        for episode in range(1, self.max_episodes+1):
+            print (f"\nEpisode {episode} now starting...")
+            
+            print("\n=======================")
+            steps, accumulated_reward = self.run_episode()
+            print("=======================\n")
 
-        self.episode_update(episode)
-        print(
-            f"> Episode {episode} ended with {steps} steps and total reward: {accumulated_reward}")
-        episode += 1
+            self.episode_update(episode)
+            print(
+                f"> Episode {episode} ended with {steps} steps and total reward: {accumulated_reward}")
+            episode += 1
