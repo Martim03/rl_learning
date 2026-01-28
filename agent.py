@@ -1,6 +1,8 @@
 from q_table import Q_table
 from environment import FrozenLakeEnviroment
+from plot_manager import PlotManager
 from time import sleep
+import matplotlib.pyplot as plt
 
 
 class FrozenLakeAgent:
@@ -22,7 +24,9 @@ class FrozenLakeAgent:
             epsilon_min=0.01,
             discount_factor=0.99
         )
-        
+
+        self.plot_manager = PlotManager()
+
         self.max_episodes = 5000
 
     def get_action(self, state: int) -> int:
@@ -70,16 +74,29 @@ class FrozenLakeAgent:
         return step, total_reward
 
     def train(self):
-        print("Starting...")
+        # TODO - change format
+        total_reward_plot = self.plot_manager.create_plot(
+            title="Total Reward Per Episode", xlabel="Episode", ylabel="Reward")
+
+        average_reward_plot = self.plot_manager.create_plot(
+            title="Average Reward Per Episode", xlabel="Episode", ylabel="Average Reward")
 
         for episode in range(1, self.max_episodes+1):
-            print (f"\nEpisode {episode} now starting...")
-            
+            print(f"\nEpisode {episode} now starting...")
+
             print("\n=======================")
             steps, accumulated_reward = self.run_episode()
+            average_reward = accumulated_reward / steps
             print("=======================\n")
 
             self.episode_update(episode)
             print(
                 f"> Episode {episode} ended with {steps} steps and total reward: {accumulated_reward}")
-            episode += 1
+            
+            self.plot_manager.update_plot(
+                total_reward_plot, episode, accumulated_reward)
+
+            self.plot_manager.update_plot(
+                average_reward_plot, episode, average_reward)
+
+        self.plot_manager.kill()
