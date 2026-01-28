@@ -16,9 +16,9 @@ class FrozenLakeAgent:
         self.q_table = Q_table(
             observation_space_n=self.env.observation_space().n,
             action_space_n=self.env.action_space().n,
-            learning_rate=0.01,
+            learning_rate=0.1,
             epsilon_max=1,
-            epsilon_decay=0.001,  # 0.01 -> 100 episodes = 0.37
+            epsilon_decay=0.01,  # 0.01 -> 100 episodes = 0.37
             epsilon_min=0.01,
             discount_factor=0.99
         )
@@ -40,7 +40,7 @@ class FrozenLakeAgent:
         total_reward = 0
 
         while True:
-            # Get Action
+            # Select Action
             action = self.get_action(state)
 
             # Get new observation and reward
@@ -64,7 +64,7 @@ class FrozenLakeAgent:
                 break
 
             # Wait a bit before next step
-            # sleep(0.7)
+            sleep(0)
 
         self.env.close
         return step, total_reward

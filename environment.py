@@ -17,10 +17,8 @@ class FrozenLakeEnviroment:
     ):
         base_env = gym.make(
             "FrozenLake-v1", render_mode="human", is_slippery=False)
-        # Actions: (0: Left, 1: Down, 2: Right, 3: Up)
-        # States: 0-15 (4x4 grid)
 
-        ###### WRAPPERS ######
+        #****** WRAPPERS ******
         time_limit_env = TimeLimit(  # MAX STEPS WRAPPER
             base_env, max_episode_steps=max_steps)
 
@@ -31,11 +29,12 @@ class FrozenLakeEnviroment:
             step_reward=step_reward
         )
 
-        ######################
+        #*********************
 
         self.unwrapped = self.env.unwrapped
 
     def get_action_label(self, action: int) -> str:
+        """ Actions: (0: Left, 1: Down, 2: Right, 3: Up) """
         action_dic = {0: "Left", 1: "Down", 2: "Right", 3: "Up"}
         return action_dic.get(action)
 
@@ -44,8 +43,10 @@ class FrozenLakeEnviroment:
         return self.env.reset()
 
     def step(self, action):
-        """Delegates step to the underlying environment."""
-        # Returns: (new_state, reward, terminated, truncated, info)
+        """
+        Delegates step to the underlying environment.\n
+        Returns: (new_state, reward, terminated, truncated, info)
+        """
         return self.env.step(action)
 
     def close(self):
